@@ -8,13 +8,11 @@ class Global {
   static String? imagePath = "";
 
   static TextEditingController firstEditingController = TextEditingController();
-  static TextEditingController lastEditingController = TextEditingController();
+  static TextEditingController chatEditingController = TextEditingController();
   static TextEditingController numberEditingController =
       TextEditingController();
-  static TextEditingController emailEditingController = TextEditingController();
 
   static String? firstname;
-  static String? lastname;
-  static String? number;
-  static String? email;
+  static String? chat;
+  static String? numberr;
 }

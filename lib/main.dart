@@ -7,7 +7,7 @@ import 'Modules/App/Material_Screen/Providers/Date_Picker_Provider/date_picker_p
 import 'Modules/App/Material_Screen/Providers/NavigationBar_Provider/navigationbar_provider.dart';
 import 'Modules/App/Material_Screen/Providers/Time_Picker_Provider/time_picker_provider.dart';
 import 'Modules/App/Material_Screen/Views/material_screen.dart';
-import 'Modules/App/add_contact_screen/views/add_contact.dart';
+import 'modules/app/material_screen/Providers/theme_provider/theme_provider.dart';
 
 void main() {
   runApp(
@@ -25,16 +25,24 @@ void main() {
         ListenableProvider<NavigationBarProvider>(
           create: (context) => NavigationBarProvider(),
         ),
+        ListenableProvider(
+          create: (context) => TheamProvider(),
+        ),
       ],
       builder: (context, child) {
         return (Provider.of<PlatformProvider>(context, listen: true).isios ==
                 true)
             ? MaterialApp(
                 debugShowCheckedModeBanner: false,
-                theme: ThemeData(useMaterial3: true),
+                theme: ThemeData.light(),
+                darkTheme: ThemeData.dark(),
+                themeMode:
+                    (Provider.of<TheamProvider>(context).theamChange.isDark ==
+                            false)
+                        ? ThemeMode.light
+                        : ThemeMode.dark,
                 routes: {
                   '/': (context) => Material_Screen(),
-                  'add': (context) => add_contact(),
                 },
               )
             : CupertinoApp(

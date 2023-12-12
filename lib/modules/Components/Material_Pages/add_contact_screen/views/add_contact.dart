@@ -1,26 +1,29 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../../../../utils/Global/global.dart';
+import '../../../../../utils/Global/global.dart';
 import '../model/contact_model/contact_model.dart';
-import '../provider/contact_provider/contact_provider.dart';
 
-class add_contact extends StatefulWidget {
-  const add_contact({super.key});
+class add_contact extends StatelessWidget {
+  add_contact({super.key});
 
-  @override
-  State<add_contact> createState() => _add_contactState();
-}
+  XFile? image;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-XFile? image;
-GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  int initialIndex = 0;
 
-class _add_contactState extends State<add_contact> {
+  String firstname = "";
+  String numberr = "";
+  String chat = "";
+
+  TextEditingController firstnamec = TextEditingController();
+  TextEditingController numberrc = TextEditingController();
+  TextEditingController chatsc = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text("add contacts"),
@@ -30,20 +33,72 @@ class _add_contactState extends State<add_contact> {
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 formKey.currentState!.save();
-                Contact contact_data = Contact(
-                  firstname: Global.firstname!,
-                  lastname: Global.lastname!,
-                  number: Global.number!,
-                  email: Global.email!,
+                Timer(
+                  const Duration(seconds: 3),
+                  () {
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Row(
+                          children: [
+                            Icon(Icons.person_pin),
+                            Text(
+                              "$firstname Added",
+                              style: const TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.bottomCenter,
+                      ),
+                    );
+                  },
                 );
 
-                Provider.of<ContactProvider>(context, listen: false)
-                    .add_contact(contact: contact_data);
-                Navigator.of(context).pushNamed('/');
+                Contact c1 = Contact(
+                  chat: chat,
+                  firstname: firstname,
+                  numberr: numberr,
+                );
+
+                Provider.of(context).add_contact(add_contact: c1);
+
+                // Provider.of<ContactProvider>(context, listen: false)
+                //     .AddContact(add_contact: c1);
+
+                firstnamec.clear();
+                chatsc.clear();
+
+                numberrc.clear();
+
+                Navigator.pushNamed(context, 'home');
+              } else {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    elevation: 5,
+                    title: const Text(
+                      "Add info to save as a contact.",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    content: Row(
+                      children: [
+                        const Spacer(),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("ok"),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               }
-              Global.firstEditingController.clear();
-              Global.emailEditingController.clear();
-              Global.numberEditingController.clear();
             },
             icon: Icon(
               Icons.add,
@@ -57,18 +112,14 @@ class _add_contactState extends State<add_contact> {
         child: Stepper(
           currentStep: Global.currentindex,
           onStepContinue: () {
-            setState(() {
-              if (Global.currentindex != 3) {
-                Global.currentindex++;
-              }
-            });
+            if (Global.currentindex != 3) {
+              Global.currentindex++;
+            }
           },
           onStepCancel: () {
-            setState(() {
-              if (Global.currentindex != 0) {
-                Global.currentindex--;
-              }
-            });
+            if (Global.currentindex != 0) {
+              Global.currentindex--;
+            }
           },
           steps: [
             Step(
@@ -103,9 +154,7 @@ class _add_contactState extends State<add_contact> {
                                   image = await Global.picker.pickImage(
                                     source: ImageSource.camera,
                                   );
-                                  setState(() {
-                                    Global.imagePath = image!.path;
-                                  });
+                                  Global.imagePath = image!.path;
                                 },
                                 icon: const Icon(
                                   Icons.camera_alt,
@@ -117,9 +166,7 @@ class _add_contactState extends State<add_contact> {
                                   image = await Global.picker.pickImage(
                                     source: ImageSource.gallery,
                                   );
-                                  setState(() {
-                                    Global.imagePath = image!.path;
-                                  });
+                                  Global.imagePath = image!.path;
                                 },
                                 icon: const Icon(
                                   Icons.panorama,
@@ -166,21 +213,21 @@ class _add_contactState extends State<add_contact> {
                 ],
               ),
             ),
-            Step(
-              state: (Global.currentindex == 3)
-                  ? StepState.editing
-                  : StepState.indexed,
-              isActive: (Global.currentindex == 3) ? true : false,
-              title: Text("enter email here..."),
-              content: Column(
-                children: [
-                  TextFormField(
-                    controller: Global.emailEditingController,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                ],
-              ),
-            ),
+            // Step(
+            //   state: (Global.currentindex == 3)
+            //       ? StepState.editing
+            //       : StepState.indexed,
+            //   isActive: (Global.currentindex == 3) ? true : false,
+            //   title: Text("enter email here..."),
+            //   content: Column(
+            //     children: [
+            //       TextFormField(
+            //         controller: Global.emailEditingController,
+            //         keyboardType: TextInputType.emailAddress,
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

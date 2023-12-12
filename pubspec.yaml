@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider:
   image_picker:
+  animated_text_kit:
+  google_fonts:
+  shared_preferences: ^2.2.0
+  url_launcher:
+  share_extend:
+  local_auth:
 
 dev_dependencies:
   flutter_test:

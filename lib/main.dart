@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'modules/app/cupertino_screen/views/HomePage.dart';
 import 'modules/app/material_screen/views/HomePage.dart';
+import 'modules/app/splesh_screen/views/splesh_screen.dart';
 import 'modules/componants/add_chat/model/add_chat_model.dart';
 import 'modules/componants/add_chat/provider/add_chat_provider.dart';
 import 'modules/componants/settings_screen/provider/profile_provider.dart';
@@ -21,7 +22,6 @@ void main() async {
   bool appSwitch = prefs.getBool('appSwitch') ?? false;
   bool appTheme = prefs.getBool('AppTheme') ?? false;
   bool profileSwitch = prefs.getBool('profileSwitch') ?? false;
-
   String userImage = prefs.getString('userImage') ?? '';
   String userName = prefs.getString('userName') ?? '';
   String userBio = prefs.getString('userBio') ?? '';
@@ -87,7 +87,9 @@ void main() async {
                 : ThemeMode.light,
             debugShowCheckedModeBanner: false,
             routes: {
-              '/': (context) => const HomePage(),
+              // '/': (context) => const introduction_screen(),
+              '/': (context) => const splesh_screen(),
+              'home': (context) => const HomePage(),
             },
           );
         } else {

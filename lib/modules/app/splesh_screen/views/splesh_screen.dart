@@ -2,14 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-class splesh_screen extends StatefulWidget {
+class splesh_screen extends StatelessWidget {
   const splesh_screen({super.key});
 
-  @override
-  State<splesh_screen> createState() => _splesh_screenState();
-}
-
-class _splesh_screenState extends State<splesh_screen> {
   @override
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 5), () {

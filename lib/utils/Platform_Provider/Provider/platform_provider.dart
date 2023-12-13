@@ -1,12 +1,25 @@
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Model/platform_model.dart';
 
 class PlatformProvider extends ChangeNotifier {
   // Platform platform = Platform(isIOS: false);
-  bool isios = false;
-  void changePlatform() {
-    isios = !isios;
+  // bool isios = false;
+  // void changePlatform() {
+  //   isios = !isios;
+  //   notifyListeners();
+  // }
+  ChangePlatform changePlatform = ChangePlatform(isios: false);
+
+  PlatformProvider({required this.changePlatform});
+
+  switchUi() async {
+    changePlatform.isios = !changePlatform.isios;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('switchh', changePlatform.isios);
     notifyListeners();
   }
 }
@@ -35,3 +48,21 @@ class profileprovider2 extends ChangeNotifier {
     notifyListeners();
   }
 }
+// import 'package:flutter/cupertino.dart';
+// import 'package:playtfrom_converter_app/models/app_model.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+//
+// class AppProvider extends ChangeNotifier {
+//   AppModel appModel;
+//
+//   AppProvider({required this.appModel});
+//
+//   switchUi() async {
+//     appModel.isIos = !appModel.isIos;
+//
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//
+//     prefs.setBool('appSwitch', appModel.isIos);
+//     notifyListeners();
+//   }
+// }

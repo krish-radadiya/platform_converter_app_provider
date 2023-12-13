@@ -1,75 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:platform_converter_app_provider/modules/Components/Material_Pages/add_contact_screen/views/add_contact.dart';
+import 'package:platform_converter_app_provider/modules/Components/Material_Pages/sliver_screen/Views/sliver_screen.dart';
+import 'package:platform_converter_app_provider/utils/Platform_Provider/Provider/platform_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../utils/Platform_Provider/Provider/platform_provider.dart';
-import '../../../Components/Material_Pages/Call_Screen/Views/call_screen.dart';
-import '../../../Components/Material_Pages/Message_Screen/Views/message_screen.dart';
-import '../../../Components/Material_Pages/sliver_screen/Views/sliver_screen.dart';
-import '../Providers/NavigationBar_Provider/navigationbar_provider.dart';
+import '../../../Components/Material_Pages/Call_Screen/Views/CallsPage.dart';
+import '../../../Components/Material_Pages/Message_Screen/Views/ChatPage.dart';
+import '../../../Components/Material_Pages/add_contact_screen/views/add_contact.dart';
 
 class Material_Screen extends StatelessWidget {
-  Material_Screen({super.key});
-
-  List<Widget> pages = [
-    add_contact(),
-    CallScreen(),
-    message_screen(),
-    Sliver_screen()
-  ];
+  const Material_Screen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: Provider.of<NavigationBarProvider>(context, listen: true)
-            .navigationBarModel
-            .currentIndex,
-        onTap: (val) {
-          Provider.of<NavigationBarProvider>(context, listen: false)
-              .changeIndex(val: val);
-        },
-        items: const <BottomNavigationBarItem>[
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.add_call),
-          //   label: "Add Contact",
-          // ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            label: "Call",
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Platform Converter",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: "message",
+          actions: [
+            Switch(
+              value:
+                  Provider.of<PlatformProvider>(context).changePlatform.isios,
+              onChanged: (val) {
+                Provider.of<PlatformProvider>(context, listen: false)
+                    .switchUi();
+              },
+            ),
+          ],
+          bottom: const TabBar(
+            physics: BouncingScrollPhysics(),
+            labelStyle: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            tabs: [
+              Icon(
+                Icons.person_add_alt,
+              ),
+              Text(
+                "CHATS",
+              ),
+              Text(
+                "CALLS",
+              ),
+              Text(
+                "SETTING",
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "setting",
-          ),
-        ],
-      ),
-      appBar: AppBar(
-        title: const Text("Home Screen"),
-        centerTitle: true,
-        actions: [
-          Switch(
-            value: Provider.of<PlatformProvider>(context, listen: true).isios,
-            onChanged: (val) {
-              Provider.of<PlatformProvider>(
-                context,
-                listen: false,
-              ).changePlatform();
-            },
-          ),
-        ],
-      ),
-      body: PageView(
-        controller: Provider.of<NavigationBarProvider>(context, listen: true)
-            .pageController,
-        onPageChanged: (val) {
-          Provider.of<NavigationBarProvider>(context, listen: false)
-              .changeIndex(val: val);
-        },
-        children: pages,
+        ),
+        body: TabBarView(
+          children: [
+            AddChat(),
+            CallsPage(),
+            ChatPage(),
+            SettingsPage(),
+          ],
+        ),
       ),
     );
   }

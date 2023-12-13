@@ -7,12 +7,16 @@ class Global {
   static ImagePicker picker = ImagePicker();
   static String? imagePath = "";
 
+  static TextEditingController name = TextEditingController();
+  static TextEditingController phone = TextEditingController();
+  static TextEditingController chat = TextEditingController();
+
   static TextEditingController firstEditingController = TextEditingController();
   static TextEditingController chatEditingController = TextEditingController();
   static TextEditingController numberEditingController =
       TextEditingController();
 
   static String? firstname;
-  static String? chat;
+  static String? chats;
   static String? numberr;
 }

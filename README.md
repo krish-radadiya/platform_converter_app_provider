@@ -22,7 +22,7 @@ Quality of code and project structure
 Presentation quality and clarity of communication
 
 
-====================================SCREEN SHOTS======================================
+========================== SHOTS============================
 
 <img src="https://github.com/krish-radadiya/platform_converter_app_provider/assets/113992828/6f87d400-1224-4a43-864a-31e2593f7594" width="250">
 <img src="https://github.com/krish-radadiya/platform_converter_app_provider/assets/113992828/70c30881-3954-4933-8801-d5355f73af8e" width="250">
